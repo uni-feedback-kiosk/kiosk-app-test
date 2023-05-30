@@ -1,6 +1,11 @@
 {
   "name": "kiosk-app-test",
   "private": true,
+  "description": "Test kiosk application",
+  "author": {
+    "name": "ntdesmond",
+    "url": "https://github.com/ntdesmond"
+  },
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
