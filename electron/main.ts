@@ -1,5 +1,5 @@
 import { app, BrowserWindow } from "electron";
-import { autoUpdater, UpdaterEvents } from "electron-updater";
+import { autoUpdater } from "electron-updater";
 import path from "node:path";
 
 // The built directory structure
