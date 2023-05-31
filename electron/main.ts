@@ -1,4 +1,5 @@
-import { app, autoUpdater, BrowserWindow } from "electron";
+import { app, BrowserWindow } from "electron";
+import { autoUpdater } from "electron-updater";
 import path from "node:path";
 
 // The built directory structure
@@ -41,6 +42,8 @@ function createWindow() {
     window.loadFile(path.join(process.env.DIST, "index.html"));
   }
 
+  // To ensure the proper autoUpdater is used
+  autoUpdater.autoDownload = true;
   autoUpdater.checkForUpdates();
 }
 
