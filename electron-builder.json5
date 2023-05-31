@@ -14,7 +14,8 @@
   ],
   "linux": {
     "target": "AppImage",
-    "category": "Core"
+    "category": "Core",
+    "artifactName": "${productName}.${ext}"
   },
   "win": {
     "target": [
