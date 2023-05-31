@@ -1,5 +1,5 @@
 import { app, BrowserWindow } from "electron";
-import { autoUpdater } from "electron-updater";
+import { autoUpdater, UpdaterEvents } from "electron-updater";
 import path from "node:path";
 
 // The built directory structure
@@ -27,6 +27,8 @@ function createWindow() {
     },
   });
 
+  window.webContents.openDevTools();
+
   // Test active push message to Renderer-process.
   window.webContents.on("did-finish-load", () => {
     window?.webContents.send(
@@ -42,8 +44,8 @@ function createWindow() {
     window.loadFile(path.join(process.env.DIST, "index.html"));
   }
 
-  // To ensure the proper autoUpdater is used
   autoUpdater.autoDownload = true;
+  autoUpdater.autoInstallOnAppQuit = false;
   autoUpdater.checkForUpdates();
 }
 
