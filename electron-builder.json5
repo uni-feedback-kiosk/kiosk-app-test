@@ -3,7 +3,7 @@
  */
 {
   "$schema": "https://raw.githubusercontent.com/electron-userland/electron-builder/master/packages/app-builder-lib/scheme.json",
-  "appId": "YourAppID",
+  "appId": "io.github.ntdesmond.uni_feedback_kiosk",
   "asar": true,
   "directories": {
     "output": "release/${version}"
@@ -12,27 +12,25 @@
     "dist-electron",
     "dist"
   ],
-  "mac": {
-    "artifactName": "${productName}_${version}.${ext}",
-    "target": [
-      "dmg"
-    ]
+  "linux": {
+    "target": "AppImage",
+    "category": "Core"
   },
   "win": {
     "target": [
       {
-        "target": "nsis",
-        "arch": [
-          "x64"
-        ]
+        "target": "nsis"
       }
     ],
     "artifactName": "${productName}_${version}.${ext}"
   },
   "nsis": {
     "oneClick": false,
-    "perMachine": false,
+    "perMachine": true,
     "allowToChangeInstallationDirectory": true,
     "deleteAppDataOnUninstall": false
+  },
+  "publish": {
+    "provider": "github"
   }
 }
