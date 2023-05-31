@@ -27,5 +27,5 @@ jobs:
         uses: addnab/docker-run-action@v3
         with:
           image: electronuserland/builder:wine
-          options: -v ${{ github.workspace }}:/project
-          run: yarn && yarn build --win --linux
+          options: -e GITHUB_TOKEN -v ${{ github.workspace }}:/project
+          run: yarn && yarn build --win --linux --publish always
