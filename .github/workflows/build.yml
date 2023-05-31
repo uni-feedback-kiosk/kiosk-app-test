@@ -19,7 +19,6 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-      - run: git config --global core.autocrlf false
       - uses: actions/checkout@v3
 
       - name: Setup Node.js 16
@@ -28,6 +27,8 @@ jobs:
           node-version: 16
 
       - name: Build the project
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           npm install
           npm run build
