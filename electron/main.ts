@@ -46,6 +46,7 @@ function createWindow() {
 
   autoUpdater.autoDownload = true;
   autoUpdater.autoInstallOnAppQuit = false;
+  autoUpdater.on("update-downloaded", () => autoUpdater.quitAndInstall());
   autoUpdater.checkForUpdates();
 }
 
