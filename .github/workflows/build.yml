@@ -1,4 +1,4 @@
-name: Build the app
+name: Build and release the app
 
 on:
   push:
@@ -12,11 +12,7 @@ concurrency:
 
 jobs:
   build:
-    strategy:
-      matrix:
-        os: [windows-latest, ubuntu-latest]
-
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
 
     steps:
       - run: git config --global core.autocrlf false
@@ -27,8 +23,9 @@ jobs:
         with:
           node-version: 16
 
-      - name: Build/release Electron app
-        uses: samuelmeuli/action-electron-builder@v1.6.0
+      - name: Build for Win & Linux with electronuserland/builder:wine
+        uses: addnab/docker-run-action@v3
         with:
-          github_token: ${{ secrets.github_token }}
-          release: true
+          image: electronuserland/builder:wine
+          options: -v ${{ github.workspace }}:/project
+          run: yarn && yarn build --win --linux
