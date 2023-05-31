@@ -12,15 +12,22 @@ concurrency:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [windows-latest, ubuntu-latest]
+
+    runs-on: ${{ matrix.os }}
 
     steps:
       - run: git config --global core.autocrlf false
       - uses: actions/checkout@v3
 
-      - name: Build for Win & Linux with electronuserland/builder:wine
-        uses: addnab/docker-run-action@v3
+      - name: Setup Node.js 16
+        uses: actions/setup-node@v3
         with:
-          image: electronuserland/builder:wine
-          options: -e ${{ secrets.GITHUB_TOKEN }} -v ${{ github.workspace }}:/project
-          run: yarn && yarn build --win --linux --publish always
+          node-version: 16
+
+      - name: Build the project
+        run: |
+          npm install
+          npm run build
