@@ -10,6 +10,7 @@ import {
   Text,
   VStack,
   useBoolean,
+  useToast,
 } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
 import ViteIcon from './vite.svg';
@@ -18,6 +19,7 @@ const MotionBox = motion(Box);
 
 const Home = () => {
   const [message, setMessage] = useState('');
+  const toast = useToast();
   const [isSending, { on: onStartSending, off: onSent }] = useBoolean();
 
   return (
@@ -58,14 +60,16 @@ const Home = () => {
         <Button
           onClick={() => {
             onStartSending();
-            window.electronAPI.sendMail().then(onSent, onSent);
+            window.electronAPI
+              .sendMail()
+              .then(onSent, (error) => toast({ description: JSON.stringify(error) }));
           }}
           isLoading={isSending}
         >
           Send Test Mail
         </Button>
       </VStack>
-      <Box as="footer">v1.0.0</Box>
+      <Box as="footer">v1.1.2</Box>
     </Flex>
   );
 };

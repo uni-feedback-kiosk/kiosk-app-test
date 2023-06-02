@@ -20,6 +20,7 @@ const { VITE_DEV_SERVER_URL } = process.env;
 function createWindow() {
   const window = new BrowserWindow({
     kiosk: true,
+    fullscreen: true,
     autoHideMenuBar: true,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
