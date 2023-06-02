@@ -6,18 +6,24 @@
     "name": "ntdesmond",
     "url": "https://github.com/ntdesmond"
   },
-  "version": "0.0.7",
+  "version": "1.0.0",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build && electron-builder",
-    "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "lint": "eslint . --report-unused-disable-directives --max-warnings 0 && prettier --check .",
+    "format": "eslint --fix . && prettier -w .",
     "preview": "vite preview"
   },
   "license": "WTFPL",
   "dependencies": {
+    "@chakra-ui/react": "^2.7.0",
+    "@emotion/react": "^11.11.0",
+    "@emotion/styled": "^11.11.0",
     "electron-updater": "^5.3.0",
+    "framer-motion": "^10.12.16",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.11.2"
   },
   "devDependencies": {
     "@types/react": "^18.0.37",
@@ -28,12 +34,17 @@
     "electron": "^24.4.0",
     "electron-builder": "^24.4.0",
     "eslint": "^8.38.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-airbnb-typescript": "^17.0.0",
+    "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.3.4",
+    "prettier": "^2.8.8",
     "typescript": "^5.0.2",
     "vite": "^4.3.2",
     "vite-plugin-electron": "^0.11.2",
-    "vite-plugin-electron-renderer": "^0.14.5"
+    "vite-plugin-electron-renderer": "^0.14.5",
+    "vite-plugin-eslint2": "^3.3.0"
   },
   "main": "dist-electron/main.js"
 }
