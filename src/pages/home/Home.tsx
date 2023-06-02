@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import {
   Box,
   Button,
@@ -7,7 +6,6 @@ import {
   Flex,
   HStack,
   Heading,
-  Text,
   VStack,
   useBoolean,
   useToast,
@@ -18,7 +16,6 @@ import ViteIcon from './vite.svg';
 const MotionBox = motion(Box);
 
 const Home = () => {
-  const [message, setMessage] = useState('');
   const toast = useToast();
   const [isSending, { on: onStartSending, off: onSent }] = useBoolean();
 
@@ -53,23 +50,35 @@ const Home = () => {
           </Box>
         </MotionBox>
         <HStack>
-          <Button onClick={() => window.electronAPI.testIPC().then(setMessage)}>Test IPC</Button>
-          <Button onClick={() => setMessage('')}>Clear IPC</Button>
+          <Button
+            onClick={() =>
+              window.electronAPI.testIPC().then((result) =>
+                toast({
+                  description: result.ok ? 'Success' : result.error,
+                  status: result.ok ? 'success' : 'error',
+                }),
+              )
+            }
+          >
+            Test IPC
+          </Button>
         </HStack>
-        <Text>IPC Message: {message}</Text>
         <Button
           onClick={() => {
             onStartSending();
-            window.electronAPI
-              .sendMail()
-              .then(onSent, (error) => toast({ description: JSON.stringify(error) }));
+            window.electronAPI.sendMail().then((result) => {
+              if (!result.ok) {
+                toast({ description: result.error, status: 'error' });
+              }
+              onSent();
+            });
           }}
           isLoading={isSending}
         >
           Send Test Mail
         </Button>
       </VStack>
-      <Box as="footer">v1.1.2</Box>
+      <Box as="footer">v1.1.3</Box>
     </Flex>
   );
 };

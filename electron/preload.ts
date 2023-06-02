@@ -1,10 +1,11 @@
 import { contextBridge, ipcRenderer } from 'electron';
+import { IPCVoidResult } from './ipc/IPCResult';
 
 export const apiName = 'electronAPI';
 
 export type API = {
-  testIPC: () => Promise<string>;
-  sendMail: () => Promise<void>;
+  testIPC: () => Promise<IPCVoidResult>;
+  sendMail: () => Promise<IPCVoidResult>;
 };
 
 const api: API = {

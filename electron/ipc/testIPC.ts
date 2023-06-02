@@ -1,7 +1,9 @@
-const testIPC = async () => {
+import { IPCVoidResult } from './IPCResult';
+
+const testIPC = async (): Promise<IPCVoidResult> => {
   // eslint-disable-next-line no-console
   console.log('Received test IPC message');
-  return 'hello';
+  return { ok: true };
 };
 
 export default testIPC;
