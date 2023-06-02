@@ -14,17 +14,19 @@ import setupIPC from './ipc/setup';
 // │
 
 const dist_path = path.join(__dirname, '../dist');
-const public_path = app.isPackaged ? dist_path : path.join(dist_path, '../public');
 
 const { VITE_DEV_SERVER_URL } = process.env;
 
 function createWindow() {
   const window = new BrowserWindow({
-    icon: path.join(public_path, 'electron-vite.svg'),
+    kiosk: true,
+    autoHideMenuBar: true,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
     },
   });
+
+  window.removeMenu();
 
   if (VITE_DEV_SERVER_URL) {
     window.loadURL(VITE_DEV_SERVER_URL);
