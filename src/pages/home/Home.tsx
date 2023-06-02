@@ -1,5 +1,16 @@
 import { useState } from 'react';
-import { Box, Button, Card, CardBody, Flex, HStack, Heading, Text, VStack } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  Card,
+  CardBody,
+  Flex,
+  HStack,
+  Heading,
+  Text,
+  VStack,
+  useBoolean,
+} from '@chakra-ui/react';
 import { motion } from 'framer-motion';
 import ViteIcon from './vite.svg';
 
@@ -7,6 +18,8 @@ const MotionBox = motion(Box);
 
 const Home = () => {
   const [message, setMessage] = useState('');
+  const [isSending, { on: onStartSending, off: onSent }] = useBoolean();
+
   return (
     <Flex alignItems="center" direction="column" height="100%">
       <Box as="header" padding="4" alignSelf="start">
@@ -42,6 +55,15 @@ const Home = () => {
           <Button onClick={() => setMessage('')}>Clear IPC</Button>
         </HStack>
         <Text>IPC Message: {message}</Text>
+        <Button
+          onClick={() => {
+            onStartSending();
+            window.electronAPI.sendMail().then(onSent, onSent);
+          }}
+          isLoading={isSending}
+        >
+          Send Test Mail
+        </Button>
       </VStack>
       <Box as="footer">v1.0.0</Box>
     </Flex>

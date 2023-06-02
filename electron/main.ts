@@ -1,6 +1,7 @@
-import { app, BrowserWindow, ipcMain } from 'electron';
+import { app, BrowserWindow } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import path from 'node:path';
+import setupIPC from './ipc/setup';
 
 // The built directory structure
 //
@@ -11,29 +12,24 @@ import path from 'node:path';
 // │ │ ├── main.js
 // │ │ └── preload.js
 // │
-process.env.DIST = path.join(__dirname, '../dist');
-process.env.PUBLIC = app.isPackaged ? process.env.DIST : path.join(process.env.DIST, '../public');
+
+const dist_path = path.join(__dirname, '../dist');
+const public_path = app.isPackaged ? dist_path : path.join(dist_path, '../public');
 
 const { VITE_DEV_SERVER_URL } = process.env;
 
 function createWindow() {
   const window = new BrowserWindow({
-    icon: path.join(process.env.PUBLIC, 'electron-vite.svg'),
+    icon: path.join(public_path, 'electron-vite.svg'),
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
     },
   });
 
-  // Test active push message to Renderer-process.
-  window.webContents.on('did-finish-load', () => {
-    window?.webContents.send('main-process-message', new Date().toLocaleString());
-  });
-
   if (VITE_DEV_SERVER_URL) {
     window.loadURL(VITE_DEV_SERVER_URL);
   } else {
-    // win.loadFile('dist/index.html')
-    window.loadFile(path.join(process.env.DIST, 'index.html'));
+    window.loadFile(path.join(dist_path, 'index.html'));
   }
 
   autoUpdater.autoDownload = true;
@@ -49,10 +45,6 @@ app.on('window-all-closed', () => {
 });
 
 app.whenReady().then(() => {
-  ipcMain.handle('test-ipc', async () => {
-    // eslint-disable-next-line no-console
-    console.log('Received test IPC message');
-    return 'hello';
-  });
+  setupIPC();
   createWindow();
 });
