@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import {
   Box,
   Button,
@@ -17,7 +18,12 @@ const MotionBox = motion(Box);
 
 const Home = () => {
   const toast = useToast();
+  const [version, setVersion] = useState('');
   const [isSending, { on: onStartSending, off: onSent }] = useBoolean();
+
+  useEffect(() => {
+    window.electronAPI.getVersion().then(({ data }) => data && setVersion(data));
+  }, []);
 
   return (
     <Flex alignItems="center" direction="column" height="100%">
@@ -78,7 +84,10 @@ const Home = () => {
           Send Test Mail
         </Button>
       </VStack>
-      <Box as="footer">v1.1.3</Box>
+      <Box as="footer">
+        v{version}
+        {import.meta.env.DEV && ' (dev)'}
+      </Box>
     </Flex>
   );
 };
