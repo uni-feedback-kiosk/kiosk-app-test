@@ -1,6 +1,7 @@
 import { app, BrowserWindow } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import path from 'node:path';
+import minimist from 'minimist';
 import setupIPC from './ipc/setup';
 
 // The built directory structure
@@ -17,12 +18,19 @@ const dist_path = path.join(__dirname, '../dist');
 
 const { VITE_DEV_SERVER_URL } = process.env;
 
+const argv = minimist(process.argv.slice(4), {
+  default: { width: 1920, height: 1080, kiosk: true },
+  alias: { width: 'w', height: 'h' },
+});
+console.log(process.argv);
+console.log(argv);
+
 function createWindow() {
   const window = new BrowserWindow({
-    kiosk: true,
-    fullscreen: true,
-    width: 1920,
-    height: 1080,
+    kiosk: argv.kiosk as boolean,
+    fullscreen: argv.kiosk as boolean,
+    width: argv.width as number,
+    height: argv.height as number,
     autoHideMenuBar: true,
     webPreferences: {
       devTools: import.meta.env.DEV,

@@ -13,6 +13,9 @@ export default defineConfig({
       {
         // Main-Process entry file of the Electron App.
         entry: 'electron/main.ts',
+        onstart(options) {
+          options.startup(['.', '--no-sandbox', ...process.argv.slice(2)]);
+        },
       },
       {
         entry: 'electron/preload.ts',
