@@ -36,7 +36,9 @@ function createWindow() {
     },
   });
 
-  window.removeMenu();
+  if (import.meta.env.PROD) {
+    window.removeMenu();
+  }
 
   if (VITE_DEV_SERVER_URL) {
     window.loadURL(VITE_DEV_SERVER_URL);

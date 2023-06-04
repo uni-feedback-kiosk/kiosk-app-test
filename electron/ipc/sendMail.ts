@@ -9,7 +9,7 @@ const {
   VITE_SMTP_PASSWORD,
   VITE_SMTP_SENDER_NAME,
   VITE_SMTP_RECIPIENT,
-} = import.meta.env;
+} = import.meta.env.PROD ? process.env : import.meta.env;
 
 const missingValues = Object.entries({
   VITE_SMTP_HOST,
