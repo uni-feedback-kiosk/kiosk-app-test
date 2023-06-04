@@ -31,7 +31,7 @@ const Home = () => {
         Web application template
       </Box>
       <VStack flex="1" justifyContent="center" gap="10">
-        <Card borderRadius="xl">
+        <Card variant="filled" borderRadius="xl">
           <CardBody>
             <Heading>Hello world!</Heading>
           </CardBody>
