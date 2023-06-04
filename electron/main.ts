@@ -18,12 +18,10 @@ const dist_path = path.join(__dirname, '../dist');
 
 const { VITE_DEV_SERVER_URL } = process.env;
 
-const argv = minimist(process.argv.slice(4), {
+const argv = minimist(process.argv.slice(process.argv.indexOf('--') + 1), {
   default: { width: 1920, height: 1080, kiosk: true },
   alias: { width: 'w', height: 'h' },
 });
-console.log(process.argv);
-console.log(argv);
 
 function createWindow() {
   const window = new BrowserWindow({
