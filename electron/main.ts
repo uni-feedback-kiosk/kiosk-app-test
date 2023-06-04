@@ -25,6 +25,7 @@ function createWindow() {
     height: 1080,
     autoHideMenuBar: true,
     webPreferences: {
+      devTools: import.meta.env.DEV,
       preload: path.join(__dirname, 'preload.js'),
     },
   });
