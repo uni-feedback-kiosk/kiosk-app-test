@@ -19,7 +19,7 @@ const dist_path = path.join(__dirname, '../dist');
 const { VITE_DEV_SERVER_URL } = process.env;
 
 const argv = minimist(process.argv.slice(process.argv.indexOf('--') + 1), {
-  default: { width: 1920, height: 1080, kiosk: true },
+  default: { width: 1920, height: 1080, kiosk: true, relaunch: false, update: true },
   alias: { width: 'w', height: 'h' },
 });
 
@@ -46,7 +46,10 @@ function createWindow() {
 
   autoUpdater.autoDownload = true;
   autoUpdater.autoInstallOnAppQuit = false;
-  autoUpdater.on('update-downloaded', () => autoUpdater.quitAndInstall());
+  if (argv.update as boolean) {
+    const shouldRelaunch = argv.relaunch as boolean;
+    autoUpdater.on('update-downloaded', () => autoUpdater.quitAndInstall(true, shouldRelaunch));
+  }
   autoUpdater.checkForUpdates();
 }
 
